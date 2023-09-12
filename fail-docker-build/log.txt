@@ -1,0 +1,45 @@
+marco@marco-B450M-DS3H-V2:~/HPCCM-MiniVite-Docker/fail-docker-build$ docker build -t hpc .
+[+] Building 0.8s (23/23) FINISHED                                                                                                                                              
+ => [internal] load build definition from Dockerfile                                                                                                                       0.0s
+ => => transferring dockerfile: 5.65kB                                                                                                                                     0.0s
+ => [internal] load .dockerignore                                                                                                                                          0.0s
+ => => transferring context: 2B                                                                                                                                            0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:22.04                                                                                                            0.0s
+ => [ 1/19] FROM docker.io/library/ubuntu:22.04                                                                                                                            0.0s
+ => [internal] load build context                                                                                                                                          0.0s
+ => => transferring context: 953B                                                                                                                                          0.0s
+ => CACHED [ 2/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         g++         gcc         gfortran &&      0.0s
+ => CACHED [ 3/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         clang-15         libomp-15-dev &&     r  0.0s
+ => CACHED [ 4/19] RUN update-alternatives --install /usr/bin/clang clang $(which clang-15) 30 &&     update-alternatives --install /usr/bin/clang++ clang++ $(which clan  0.0s
+ => CACHED [ 5/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -t jammy         dapl2-utils         ibutils     0.0s
+ => CACHED [ 6/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         make         wget &&     rm -rf /var/li  0.0s
+ => CACHED [ 7/19] RUN mkdir -p /var/tmp && wget -q -nc --no-check-certificate -P /var/tmp https://github.com/NVIDIA/gdrcopy/archive/v2.2.tar.gz &&     mkdir -p /var/tmp  0.0s
+ => CACHED [ 8/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         ca-certificates         git &&     rm -  0.0s
+ => CACHED [ 9/19] RUN mkdir -p /var/tmp && cd /var/tmp && git clone --depth=1 --branch knem-1.1.4 https://gitlab.inria.fr/knem/knem.git knem && cd - &&     mkdir -p /us  0.0s
+ => CACHED [10/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         autoconf         automake         ca-ce  0.0s
+ => CACHED [11/19] RUN mkdir -p /var/tmp && cd /var/tmp && git clone --depth=1 --branch master https://github.com/hjelmn/xpmem.git xpmem && cd - &&     cd /var/tmp/xpmem  0.0s
+ => CACHED [12/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         autoconf         automake         binut  0.0s
+ => CACHED [13/19] RUN mkdir -p /var/tmp && cd /var/tmp && git clone --depth=1 --branch v1.14.1 https://github.com/openucx/ucx.git ucx && cd - &&     cd /var/tmp/ucx &&   0.0s
+ => CACHED [14/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         bzip2         file         hwloc         0.0s
+ => CACHED [15/19] RUN mkdir -p /var/tmp && wget -q -nc --no-check-certificate -P /var/tmp https://www.open-mpi.org/software/ompi/v4.0/downloads/openmpi-4.0.5.tar.bz2 &&  0.0s
+ => CACHED [16/19] RUN apt-get update -y &&     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends         libomp-dev         make         tar      0.0s
+ => CACHED [17/19] RUN wget https://github.com/ECP-ExaGraph/miniVite/archive/refs/tags/v1.2.tar.gz; tar -xzvf v1.2.tar.gz; mv miniVite-1.2/ minivite                       0.0s
+ => [18/19] COPY Makefile /minivite                                                                                                                                        0.0s
+ => ERROR [19/19] RUN cd minivite &&     make                                                                                                                              0.8s
+------                                                                                                                                                                          
+ > [19/19] RUN cd minivite &&     make:                                                                                                                                         
+#0 0.287 mpicxx -std=c++11 -g -O3 -fopenmp -DPRINT_DIST_STATS  -c -o main.o main.cpp                                                                                            
+#0 0.481 main.cpp:53:10: fatal error: 'omp.h' file not found                                                                                                                    
+#0 0.481 #include <omp.h>
+#0 0.481          ^~~~~~~
+#0 0.700 1 error generated.
+#0 0.704 make: *** [Makefile:23: main.o] Error 1
+------
+Dockerfile:151
+--------------------
+ 150 |     
+ 151 | >>> RUN cd minivite && \
+ 152 | >>>     make
+ 153 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c cd minivite &&     make" did not complete successfully: exit code: 2

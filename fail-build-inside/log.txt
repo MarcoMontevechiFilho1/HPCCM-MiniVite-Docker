@@ -1,0 +1,7 @@
+marco@marco-B450M-DS3H-V2:~/HPCCM-MiniVite-Docker/fail-build-inside$ ./generate_error 
+mpicxx -std=c++11 -g -O3 -fopenmp -DPRINT_DIST_STATS  -c -o main.o main.cpp
+main.cpp:53:10: fatal error: 'omp.h' file not found
+#include <omp.h>
+         ^~~~~~~
+1 error generated.
+make: *** [Makefile:23: main.o] Error 1

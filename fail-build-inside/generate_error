@@ -1,0 +1,1 @@
+docker run --rm -it hpc2 bash -c 'cd /minivite/; make'
