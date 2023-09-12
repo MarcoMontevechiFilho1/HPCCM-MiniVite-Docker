@@ -1,5 +1,5 @@
 
-CXX = clang-15
+CXX = mpicxx
 
 USE_TAUPROF=0
 ifeq ($(USE_TAUPROF),1)
